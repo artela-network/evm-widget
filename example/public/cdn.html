@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ping Widget</title>
+  </head>
+  <body>
+    <script>
+      window.process = { browser: true, env: { ENVIRONMENT: 'BROWSER' } };
+    </script>
+    <script
+      type="module"
+      src="https://unpkg.com/ping-widget@0.0.7/dist/ping-widget.js"
+    ></script>
+
+    <ping-connect-wallet chain-id="juno-1" hd-path="m/44'/118/0'/0/0" />
+  </body>
+</html>
