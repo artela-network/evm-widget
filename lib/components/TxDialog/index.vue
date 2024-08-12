@@ -97,7 +97,7 @@ const msgBox = ref({
     isValid: { ok: false, error: '' },
     initial: function () { },
 });
-const feeAmount = ref(2000);
+const feeAmount = ref(8000000000000000);
 const feeDenom = ref('');
 const gasInfo = ref(400000);
 const memo = ref('');
