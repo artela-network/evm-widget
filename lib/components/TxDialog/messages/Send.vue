@@ -62,8 +62,7 @@ const showBalances = computed(() => {
 const units = computed(() => {
         amountDenom.value = denom.value
         return [
-            {denom: denom.value, exponent: 0, aliases: []},
-            { denom: "ART", exponent: 18, aliases: [] }
+            {denom: denom.value, exponent: 18, aliases: ["ART"]}
         ]
 })
 

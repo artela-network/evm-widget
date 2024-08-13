@@ -70,7 +70,7 @@ const available = computed(() => {
 const units = computed(() => {
     if(!props.metadata || !props.metadata[stakingDenom.value]) {
         amountDenom.value = stakingDenom.value
-        return [{denom: stakingDenom.value, exponent: 0, aliases: []}]
+        return [{denom: stakingDenom.value, exponent: 18, aliases: ["ART"]}]
     }
     const list = props.metadata[stakingDenom.value].denom_units.sort((a, b) => b.exponent - a.exponent)
     if(list.length > 0) amountDenom.value = list[0].denom

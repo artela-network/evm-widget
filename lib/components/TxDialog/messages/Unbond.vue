@@ -36,7 +36,7 @@ const units = computed(() => {
     const denom = delegation.value.balance?.denom
     if(!props.metadata || !props.metadata[denom]) {
         amountDenom.value = denom
-        return [{denom: denom, exponent: 0, aliases: []}]
+        return [{denom: denom, exponent: 18, aliases: ["ART"]}]
     }
     const list = props.metadata[denom].denom_units.sort((a, b) => b.exponent - a.exponent)
     if(list.length > 0) amountDenom.value = list[0].denom

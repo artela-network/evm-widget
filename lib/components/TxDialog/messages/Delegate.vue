@@ -75,8 +75,7 @@ function loadInactiveValidators() {
 const units = computed(() => {
         amountDenom.value = stakingDenom.value;
         return [
-            { denom: stakingDenom.value, exponent: 0, aliases: [] },
-            { denom: "ART", exponent: 18, aliases: [] }
+            { denom: stakingDenom.value, exponent: 18, aliases: ["ART"] }
         ];
 });
 

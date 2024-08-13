@@ -121,7 +121,7 @@ const showBalances = computed(() => {
 const units = computed(() => {
     if (!props.metadata || !props.metadata[denom.value]) {
         amountDenom.value = denom.value;
-        return [{ denom: denom.value, exponent: 0, aliases: [] }];
+        return [{ denom: denom.value, exponent: 18, aliases: ["ART"] }];
     }
     const list = props.metadata[denom.value].denom_units.sort(
         (a, b) => b.exponent - a.exponent
