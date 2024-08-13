@@ -73,18 +73,11 @@ function loadInactiveValidators() {
 }
 
 const units = computed(() => {
-    if (!props.metadata || !props.metadata[stakingDenom.value]) {
         amountDenom.value = stakingDenom.value;
         return [
             { denom: stakingDenom.value, exponent: 0, aliases: [] },
             { denom: "ART", exponent: 18, aliases: [] }
         ];
-    }
-    const list = props.metadata[stakingDenom.value].denom_units.sort(
-        (a, b) => b.exponent - a.exponent
-    );
-    if (list.length > 0) amountDenom.value = list[0].denom;
-    return list;
 });
 
 const isValid = computed(() => {

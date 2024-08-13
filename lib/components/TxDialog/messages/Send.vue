@@ -60,16 +60,11 @@ const showBalances = computed(() => {
 })
 
 const units = computed(() => {
-    if(!props.metadata || !props.metadata[denom.value]) {
         amountDenom.value = denom.value
         return [
             {denom: denom.value, exponent: 0, aliases: []},
             { denom: "ART", exponent: 18, aliases: [] }
         ]
-    }
-    const list = props.metadata[denom.value].denom_units.sort((a, b) => b.exponent - a.exponent)
-    if(list.length > 0) amountDenom.value = list[0].denom
-    return list
 })
 
 const isValid = computed(() => {
