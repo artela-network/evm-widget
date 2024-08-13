@@ -112,7 +112,7 @@ async function initData() {
         p.value = JSON.parse(props.params || '{}')
         memo.value = '';
 
-        feeAmount.value = Number(p.value?.fees?.amount || 2000)
+        feeAmount.value = Number(p.value?.fees?.amount || 8000000000000000)
         feeDenom.value = balance.value[0]?.denom;
         
         try {
