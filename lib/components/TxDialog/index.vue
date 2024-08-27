@@ -327,12 +327,7 @@ function fetchTx(tx: string) {
                         </div>
 
                         <div class="modal-action flex justify-between items-center">
-                            <div class="flex items-center cursor-pointer">
-                                <!-- <input v-model="advance" type="checkbox" :id="`${type}-advance`"
-                                    class="checkbox checkbox-sm checkbox-primary mr-2" /><label :for="`${type}-advance`"
-                                    class="cursor-pointer dark:text-gray-400">Advance</label> -->
-                            </div>
-                            <button class="btn btn-primary" @click="sendTx()" :disabled="sending">
+                            <button class="btn btn-primary w-full bg-[#0000C9]" @click="sendTx()" :disabled="sending">
                                 <span v-if="sending" class="loading loading-spinner"></span>
                                 Send
                             </button>

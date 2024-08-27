@@ -13,7 +13,20 @@ const props = defineProps({
     params: String,
 });
 
-const amount = ref('');
+// 作为 uart，用于发起交易
+const bigAmount = ref('');
+
+// 使用 computed 来创建双向绑定的计算属性
+const amount = computed({
+  get() {
+    // 将 bigAmount 的值转换为 uart，默认值为 0
+    return BigInt(parseFloat(bigAmount.value || '0') * 10**18);
+  },
+  set(newValue) {
+    // 当 amount 被改变时，更新 bigAmount，确保 bigAmount 保留浮点数
+    bigAmount.value = (Number(newValue) / 10**18).toString();
+  }
+});
 const recipient = ref('');
 const denom = ref('');
 const amountDenom = ref('')
@@ -126,12 +139,13 @@ defineExpose({msgs, isValid, initial})
         <div class="form-control">
             <label class="label">
                 <span class="label-text">Amount</span>
-                <span>{{ available.display.amount }} {{ formatDenom(available.display.denom) }}</span>
+                <span>{{ (parseFloat(available.display.amount) / 10**18).toFixed(18) }} art</span>
             </label>
             <label class="input-group">
-                <input v-model="amount" type="number" :placeholder="`Available: ${available?.display.amount}`" class="input border border-gray-300 dark:border-gray-600 w-full dark:text-white" />
+                <input v-model="bigAmount" type="number" :placeholder="`Available: ${(parseFloat(available.display.amount) / 10**18).toFixed(18)}`" class="input border border-gray-300 dark:border-gray-600 w-full dark:text-white" />
                 <select v-model="amountDenom" class="select select-bordered dark:text-white">
-                    <option v-for="u in units" :value="u.denom">{{ formatDenom(u.denom) }}</option>
+                    <option v-for="u in units" :value="u.denom">art</option>
+                    <!-- <option v-for="u in units" :value="u.denom">{{ formatDenom(u.denom) }}</option> -->
                 </select>
             </label>
         </div>
