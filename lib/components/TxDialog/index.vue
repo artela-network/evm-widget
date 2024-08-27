@@ -79,7 +79,7 @@ const msgType = computed(() => {
     }
 });
 
-const advance = ref(true);
+const advance = ref(false);
 const sending = ref(false);
 const balance = ref([] as Coin[]);
 const metadatas = ref({} as Record<string, CoinMetadata>);
@@ -328,9 +328,9 @@ function fetchTx(tx: string) {
 
                         <div class="modal-action flex justify-between items-center">
                             <div class="flex items-center cursor-pointer">
-                                <input v-model="advance" type="checkbox" :id="`${type}-advance`"
+                                <!-- <input v-model="advance" type="checkbox" :id="`${type}-advance`"
                                     class="checkbox checkbox-sm checkbox-primary mr-2" /><label :for="`${type}-advance`"
-                                    class="cursor-pointer dark:text-gray-400">Advance</label>
+                                    class="cursor-pointer dark:text-gray-400">Advance</label> -->
                             </div>
                             <button class="btn btn-primary" @click="sendTx()" :disabled="sending">
                                 <span v-if="sending" class="loading loading-spinner"></span>
