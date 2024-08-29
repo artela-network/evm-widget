@@ -139,13 +139,12 @@ defineExpose({msgs, isValid, initial})
         <div class="form-control">
             <label class="label">
                 <span class="label-text">Amount</span>
-                <span>{{ (parseFloat(available.display.amount) / 10**18).toFixed(18) }} art</span>
+                <span>{{ (parseFloat(available.display.amount) / 10**18).toFixed(18) }} ART</span>
             </label>
             <label class="input-group">
                 <input v-model="bigAmount" type="number" :placeholder="`Available: ${(parseFloat(available.display.amount) / 10**18).toFixed(18)}`" class="input border border-gray-300 dark:border-gray-600 w-full dark:text-white" />
                 <select v-model="amountDenom" class="select select-bordered dark:text-white">
-                    <option v-for="u in units" :value="u.denom">art</option>
-                    <!-- <option v-for="u in units" :value="u.denom">{{ formatDenom(u.denom) }}</option> -->
+                    <option v-for="u in units" :value="u.denom">ART</option>
                 </select>
             </label>
         </div>
