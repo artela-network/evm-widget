@@ -1,16 +1,16 @@
 {
     "name": "@artela/wallet-widget",
-    "version": "0.1.20",
+    "version": "0.1.25",
     "type": "module",
     "main": "dist/wallet-widget.js",
     "author": {
-        "name": "0xYuan90",
+        "name": "yuan90",
         "email": "fatfishman90@gmail.com"
     },
-    "homepage": "https://github.com/artela-network/wallet-widget",
+    "homepage": "https://github.com/artela-network/evm-widget",
     "repository": {
         "type": "git",
-        "url": "https://github.com/artela-network/wallet-widget"
+        "url": "https://github.com/artela-network/evm-widget"
     },
     "license": "MIT",
     "description": "wallet widget",
