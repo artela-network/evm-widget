@@ -44,7 +44,7 @@ defineExpose({msgs, isValid, initial})
     <div>
         <div class="form-control">
             <label class="label">
-                <span class="label-text">Sender</span>
+                <span class="label-text">Current Address(cosmos)</span>
             </label>
             <input :value="sender" type="text" class="text-gray-600 dark:text-white input border !border-gray-300 dark:!border-gray-600" />
         </div>
