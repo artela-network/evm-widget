@@ -79,7 +79,7 @@ const msgType = computed(() => {
     }
 });
 
-const advance = ref(false);
+const advance = ref(true);
 const sending = ref(false);
 const balance = ref([] as Coin[]);
 const metadatas = ref({} as Record<string, CoinMetadata>);
@@ -114,7 +114,7 @@ async function initData() {
 
         feeAmount.value = Number(p.value?.fees?.amount || 8000000000000000)
         feeDenom.value = balance.value[0]?.denom;
-        
+
         try {
             getBalance(props.endpoint, props.sender).then((x) => {
                 balance.value = x.balances;
@@ -123,15 +123,15 @@ async function initData() {
                     if (coin.denom.length < 12)
                         getBalanceMetadata(props.endpoint, coin.denom).then(
                             (meta) => {
-                                if(meta.metadata) metadatas.value[coin.denom] = meta.metadata;
+                                if (meta.metadata) metadatas.value[coin.denom] = meta.metadata;
                             }
-                        ).catch(()=>{});
-                    if(coin.denom.startsWith('ibc/')) {
+                        ).catch(() => { });
+                    if (coin.denom.startsWith('ibc/')) {
                         getIBCDenomMetadata(coin.denom).then(
                             (meta) => {
-                                if(meta) metadatas.value[coin.denom] = meta;
+                                if (meta) metadatas.value[coin.denom] = meta;
                             }
-                        ).catch(()=>{});
+                        ).catch(() => { });
                     }
                 });
             });
@@ -144,7 +144,7 @@ async function initData() {
                         metadatas.value[a.base] = a as CoinMetadata
                     })
                 }).catch(() => {
-                    console.log(`Chain: ${props.registryName } was not found on Cosmos Registry`)
+                    console.log(`Chain: ${props.registryName} was not found on Cosmos Registry`)
                 })
             }
             getLatestBlock(props.endpoint).then((x) => {
@@ -153,12 +153,13 @@ async function initData() {
 
             // Every sub component should have a initial function
             if (msgBox.value && msgBox.value.initial) msgBox.value.initial();
-            
+
             // load fee denom
             getStakingParam(props.endpoint).then((res) => {
                 feeDenom.value = res?.params?.bond_denom;
             })
         } catch (err) {
+            console.log(err, '--==-')
             error.value = String(err);
         }
 
@@ -196,7 +197,7 @@ async function sendTx() {
                 chainId: chainId.value,
             },
         };
-        // console.log('tx:', tx);
+        console.log('tx:', tx);
         const current = readWallet(props.hdPath);
         const wallet = current ? current.wallet : WalletName.Keplr;
         const client = new UniClient(wallet, {
@@ -204,7 +205,7 @@ async function sendTx() {
             hdPath: current.hdPath,
         });
 
-        if(!advance.value) {
+        if (!advance.value) {
             await client.simulate(props.endpoint, tx, broadcast.value).then(gas => {
                 // update tx gas
                 tx.fee.gas = (gas * 1.25).toFixed()
@@ -229,6 +230,7 @@ async function sendTx() {
         });
     } catch (e) {
         sending.value = false;
+        console.log(e, 'this is error')
         error.value = String(e);
     }
 }
@@ -289,7 +291,8 @@ function fetchTx(tx: string) {
         <!-- Put this part before </body> tag -->
         <input v-model="open" type="checkbox" :id="type" class="modal-toggle" @change="initData()" />
         <label :for="type" class="modal cursor-pointer">
-            <label class="modal-box relative p-5" :class="{ '!w-11/12 !max-w-5xl': String(type).startsWith('wasm') }" for="">
+            <label class="modal-box relative p-5" :class="{ '!w-11/12 !max-w-5xl': String(type).startsWith('wasm') }"
+                for="">
                 <label :for="type" class="btn btn-sm btn-circle absolute right-4 top-4">✕</label>
                 <h3 class="text-lg font-bold capitalize dark:text-gray-300">
                     {{ showTitle() }}
@@ -307,11 +310,47 @@ function fetchTx(tx: string) {
                             <div :class="advance ? '' : 'hidden'">
                                 <div class="form-control">
                                     <label class="label">
+                                        <span class="label-text">Fees</span>
+                                    </label>
+                                    <label class="input-group flex items-center">
+                                        <input v-model="feeAmount" type="text" placeholder="0.001"
+                                            class="input border border-gray-300 dark:border-gray-600 flex-1 w-0 dark:text-gray-300" />
+                                        <select v-model="feeDenom"
+                                            class="select input border border-gray-300 dark:border-gray-600 w-[200px]">
+                                            <option disabled selected>
+                                                Select Fee Token
+                                            </option>
+                                            <option v-for="t in balance">
+                                                {{ t.denom }}
+                                            </option>
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="form-control">
+                                    <label class="label">
                                         <span class="label-text">Gas</span>
                                     </label>
                                     <input v-model="gasInfo" type="number" placeholder="2000000"
                                         class="input border border-gray-300 dark:border-gray-600 dark:text-gray-300" />
                                 </div>
+                                <!-- <div class="form-control">
+                                    <label class="label">
+                                        <span class="label-text">Memo</span>
+                                    </label>
+                                    <input v-model="memo" type="text" placeholder="Memo"
+                                        class="input border border-gray-300 dark:border-gray-600 dark:text-gray-300" />
+                                </div>
+                                <div class="form-control">
+                                    <label class="label">
+                                        <span class="label-text">Broadcast Mode</span>
+                                    </label>
+                                    <select v-model="broadcast"
+                                        class="select input border border-gray-300 dark:border-gray-600 w-[200px]">
+                                        <option :value="BroadcastMode.SYNC">Sync</option>
+                                        <option :value="BroadcastMode.ASYNC">Async</option>
+                                        <option :value="BroadcastMode.BLOCK">Block</option>
+                                    </select>
+                                </div> -->
                             </div>
                         </form>
 
