@@ -106,6 +106,8 @@ const chainId = ref('cosmoshub-4');
 const broadcast = ref(BroadcastMode.SYNC);
 
 async function initData() {
+    error.value = '';
+
     if (open.value && props.endpoint && props.sender) {
         metadatas.value = {}
         view.value = 'input';
@@ -185,7 +187,7 @@ async function sendTx() {
             signerAddress: props.sender,
             messages,
             fee: {
-                gas: "400000",
+                gas: gasInfo.value || "400000",
                 amount: [
                     { amount: String(feeAmount.value), denom: feeDenom.value },
                 ],
@@ -231,7 +233,7 @@ async function sendTx() {
     } catch (e) {
         sending.value = false;
         console.log(e, 'this is error')
-        error.value = String(e);
+        error.value = String(e.message);
     }
 }
 
@@ -285,6 +287,7 @@ function fetchTx(tx: string) {
             }
         });
 }
+
 </script>
 <template>
     <div class="text-gray-600">

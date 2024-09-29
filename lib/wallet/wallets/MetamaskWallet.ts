@@ -42,11 +42,31 @@ export class MetamaskWallet implements AbstractWallet {
         });
 
         const message = 'Verify Public Key';
-        // @ts-ignore
-        const signature = await window?.ethereum?.request({
-            method: 'personal_sign',
-            params: [message, accounts[0], ''],
-        });
+        let signature;
+        const maxRetries = 3;
+        let retries = 0;
+
+        while (retries < maxRetries) {
+            try {
+                // @ts-ignore
+                signature = await window?.ethereum?.request({
+                    method: 'personal_sign',
+                    params: [message, accounts[0], ''],
+                });
+                break; // If successful, exit the loop
+            } catch (error) {
+                retries++;
+                if (retries >= maxRetries) {
+                    throw new Error('Failed to sign message after multiple attempts. Please try again.');
+                }
+                // Wait for a short time before retrying
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+        }
+
+        if (!signature) {
+            throw new Error('Failed to obtain signature');
+        }
 
         const uncompressedPk = recoverPublicKey(
             hashMessage(message),
