@@ -146,16 +146,16 @@ defineExpose({ msgs, isValid, initial });
             <label class="label">
                 <span class="label-text">Validator</span>
                 <a class="label-text" @click="loadInactiveValidators()"
-                    >Show Inactive</a
+                    >Show Active</a
                 >
             </label>
             <select v-model="validator" class="select select-bordered dark:text-white">
                 <option value="">Select a validator</option>
-                <option v-for="v in list" :value="v.operator_address">
+                <option v-for="v in list" :value="v.operator_address" v-show="v.status === 'BOND_STATUS_BONDED'">
                     {{ v.description.moniker }} ({{
                         decimal2percent(v.commission.commission_rates.rate)
                     }}%)
-                    <span v-if="v.status !== 'BOND_STATUS_BONDED'">x</span>
+                    <!-- <span v-if="v.status !== 'BOND_STATUS_BONDED'">x</span> -->
                 </option>
             </select>
         </div>
