@@ -97,7 +97,7 @@ const msgBox = ref({
     isValid: { ok: false, error: '' },
     initial: function () { },
 });
-const feeAmount = ref(8000000000000000);
+const feeAmount = ref(8880000000000000);
 const feeDenom = ref('');
 const gasInfo = ref(400000);
 const memo = ref('');
@@ -114,7 +114,7 @@ async function initData() {
         p.value = JSON.parse(props.params || '{}')
         memo.value = '';
 
-        feeAmount.value = Number(p.value?.fees?.amount || 8000000000000000)
+        feeAmount.value = Number(p.value?.fees?.amount || 8880000000000000)
         feeDenom.value = balance.value[0]?.denom;
 
         try {
