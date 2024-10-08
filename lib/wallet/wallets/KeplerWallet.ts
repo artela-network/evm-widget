@@ -20,7 +20,7 @@ export class KeplerWallet implements AbstractWallet {
         this.chainId = arg.chainId || "cosmoshub"
         // @ts-ignore
         if (!window.getOfflineSigner || !window.keplr) {
-            throw new Error('Please install keplr extension')
+            throw new Error('Please select wallet')
         }
         this.registry = registry
         this.conf = arg
