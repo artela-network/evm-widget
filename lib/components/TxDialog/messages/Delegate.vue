@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { ComputedRef, PropType, computed, onMounted, ref } from 'vue';
+import { ComputedRef, PropType, computed, ref } from 'vue';
+import BigNumber from 'bignumber.js';
 import {
     getActiveValidators,
     getInactiveValidators,
@@ -162,15 +163,21 @@ defineExpose({ msgs, isValid, initial });
         <div class="form-control">
             <label class="label">
                 <span class="label-text">Amount</span>
-                <span class="text-[#0000C9]">{{ (parseFloat(available.display.amount) / 10**18).toFixed(18) }} ART</span>     
+                <span class="text-[#0000C9]">{{ new BigNumber(available.display.amount).dividedBy(new BigNumber(10).pow(18)).toString() }} ART</span>     
             </label>
             <label class="join">
                 <input
                     v-model="bigAmount"
                     type="number"
-                    :placeholder="`Available: ${(parseFloat(available.display.amount) / 10**18).toFixed(18)}`"
+                    :placeholder="`Available: ${new BigNumber(available.display.amount).dividedBy(new BigNumber(10).pow(18)).toString()}`"
                     class="input border border-gray-300 dark:border-gray-600 w-full join-item dark:text-white"
                 />
+                <button 
+                    @click="bigAmount = new BigNumber(available.display.amount).dividedBy(new BigNumber(10).pow(18)).toString()"
+                    class="btn join-item"
+                >
+                    MAX
+                </button>
                 <select v-model="amountDenom" class="select select-bordered join-item dark:text-white">
                     <option v-for="u in units" :value="u.denom">ART</option>
                 </select>
